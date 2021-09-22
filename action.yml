@@ -40,4 +40,4 @@ runs:
       with:
         url: https://${{ inputs.observe-hostname }}/${{ inputs.observe-url-path }}
         headers: '{"Authorization": "Bearer ${{ inputs.customer-id }} ${{ inputs.ingest-token }}", "Content-type": "${{ inputs.content-type }}", "Content-length": ${{ steps.content-length.outputs.value }} }'
-        body: inputs.content
+        body: ${{ inputs.content }}
