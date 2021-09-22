@@ -6,7 +6,7 @@ jobs:
     name: Submit data for ingest into Observe
     steps:
       - uses: actions/checkout@v2
-      - id: Ingest to Observe
+      - id: ingest-observe
         uses: highb/observe-action@v1
         with:
           content: '{ "Amazing json document": "Wow" }'
