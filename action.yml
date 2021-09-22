@@ -32,7 +32,9 @@ runs:
     - name: Get Content Length
       shell: bash
       id: content-length
-      run: echo '::set-output name=value::$(echo '${{ inputs.content }}' | wc -c)'
+      run: |
+        LENGTH="$('${{ inputs.content }}' | wc -c)"
+        echo '::set-output name=value::${LENGTH}'
     - name: Webhook
       uses: joelwmale/webhook-action@6f6298309b7aa21dc601d8c6271e0be055ce6f0e
       with:
