@@ -1,0 +1,14 @@
+on: [push]
+
+jobs:
+  hello_world_job:
+    runs-on: ubuntu-latest
+    name: Submit data for ingest into Observe
+    steps:
+      - uses: actions/checkout@v2
+      - id: Ingest to Observe
+        uses: highb/observe-action@v1
+        with:
+          content: '{ "Amazing json document": "Wow" }'
+          customer-id: secrets.OBSERVE_CUSTOMER_ID
+          ingest-token: secrets.OBSERVE_TOKEN # This is fake
