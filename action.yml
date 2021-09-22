@@ -29,9 +29,13 @@ runs:
       shell: bash
       run: echo "::add-mask::${{ inputs.ingest-token }}"
       id: hide-sensitive-values
+    - name: Get Content Length
+      shell: bash
+      id: content-length
+      run: echo '::set-output value::$(echo '${{ inputs.content }}' | wc -c)'
     - name: Webhook
       uses: joelwmale/webhook-action@6f6298309b7aa21dc601d8c6271e0be055ce6f0e
       with:
         url: https://${{ inputs.observe-hostname }}/${{ inputs.observe-url-path }}
-        headers: '{"Authorization": "Bearer ${{ inputs.customer-id }} ${{ inputs.ingest-token }}", "Content-type": "${{ inputs.content-type }}", "Content-length": '
+        headers: '{"Authorization": "Bearer ${{ inputs.customer-id }} ${{ inputs.ingest-token }}", "Content-type": "${{ inputs.content-type }}", "Content-length": ${{ steps.content-length.value }} }'
         body: inputs.content
