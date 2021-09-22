@@ -1,0 +1,37 @@
+name: 'Observe Ingest'
+description: 'Submit data to Observe for ingest'
+inputs:
+  content:
+    description: 'Content to submit for ingest'
+    required: true
+  content-type:
+    description: 'Content type being ingested. Defaults to application/json, supports application/csv and ???'
+    required: true
+    default: 'application/json'
+  customer-id:
+    description: 'Observe customer ID'
+    required: true
+  ingest-token:
+    description: 'Observe ingest token'
+    required: true
+  observe-hostname:
+    description: 'Hostname for Observe'
+    required: true
+    default: 'collect.observeinc.com'
+  observe-url-path:
+    description: 'Path to submit to on observe-hostname'
+    required: true
+    default: '/v1/observations'
+runs:
+  using: "composite"
+  steps:
+    - name: Ensure sensitive values are hidden
+      shell: bash
+      run: echo "::add-mask::${{ inputs.ingest-token }}"
+      id: hide-sensitive-values
+    - name: Webhook
+      uses: joelwmale/webhook-action@v2.1.0
+      with:
+        url: https://${{ inputs.observe-hostname }}/${{ inputs.observe-url-path }}
+        headers: '{"Authorization": "Bearer ${{ inputs.customer-id }} ${{ inputs.ingest-token }}", "Content-type": "${{ inputs.content-type }}", "Content-length": '
+        body: inputs.content
