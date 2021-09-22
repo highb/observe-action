@@ -21,7 +21,11 @@ inputs:
   observe-url-path:
     description: 'Path to submit to on observe-hostname'
     required: true
-    default: '/v1/observations'
+    default: '/v1/http/'
+  observe-path:
+    description: 'Path you would like your data to have in observe'
+    required: false
+    default: 'github-actions'
 runs:
   using: "composite"
   steps:
